@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Velas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-pink-50 text-slate-800 font-sans min-h-screen p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-8" id="app-container">
+        
+        <!-- Encabezado -->
+        <div class="text-center space-y-2">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 flex items-center justify-center gap-3">
+                <i class="fas fa-gift text-pink-500"></i>
+                Mi Negocio de Velas
+            </h1>
+            <p class="text-slate-600 text-lg">Calculadora fácil paso a paso</p>
+        </div>
+
+        <!-- RESULTADOS -->
+        <section class="bg-slate-800 rounded-3xl p-6 md:p-8 shadow-xl text-white">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold flex items-center justify-center gap-2">
+                    <i class="fas fa-dollar-sign text-green-400"></i>
+                    ¿A cómo debo venderlas?
+                </h2>
+                <p class="text-slate-300 mt-2">
+                    Hacer CADA vela te cuesta exactamente <strong id="costoUnitarioDisplay">$0</strong> (materiales + tu tiempo).
+                    <br/>Aquí tienes los precios recomendados para cobrar:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Mayorista -->
+                <div class="bg-slate-700 p-6 rounded-2xl border border-slate-600 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-400"></div>
+                    <div>
+                        <span class="bg-blue-500/20 text-blue-300 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">A partir de 12 velas</span>
+                        <h3 class="text-lg font-bold mt-3 text-white">Venta al Por Mayor</h3>
+                        <p class="text-slate-400 text-sm mt-1 mb-4">Precio especial para pedidos grandes.</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-extrabold text-white mb-2"><span id="precioMayoristaDisplay">$0</span> <span class="text-sm font-normal text-slate-400">c/u</span></p>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-600">
+                            <p class="text-xs text-slate-400 text-center">Ganancia pura <strong class="text-slate-200">por cada vela</strong>:</p>
+                            <p class="text-blue-400 font-bold text-center text-lg" id="gananciaMayoristaDisplay">$0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eventos Pequeños -->
+                <div class="bg-slate-700 p-6 rounded-2xl border border-slate-600 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-purple-400"></div>
+                    <div>
+                        <span class="bg-purple-500/20 text-purple-300 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">De 6 a 11 velas</span>
+                        <h3 class="text-lg font-bold mt-3 text-white">Eventos Pequeños</h3>
+                        <p class="text-slate-400 text-sm mt-1 mb-4">Un pequeño descuento para amigos o medias docenas.</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-extrabold text-white mb-2"><span id="precioAmigoDisplay">$0</span> <span class="text-sm font-normal text-slate-400">c/u</span></p>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-600">
+                            <p class="text-xs text-slate-400 text-center">Ganancia pura <strong class="text-slate-200">por cada vela</strong>:</p>
+                            <p class="text-purple-400 font-bold text-center text-lg" id="gananciaAmigoDisplay">$0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detal -->
+                <div class="bg-slate-700 p-6 rounded-2xl border border-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.2)] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-pink-500"></div>
+                    <div>
+                        <span class="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">1 a 5 velas</span>
+                        <h3 class="text-lg font-bold mt-3 text-white">Venta Individual</h3>
+                        <p class="text-slate-400 text-sm mt-1 mb-4">Precio full para regalos de a 1 sola vela.</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-extrabold text-white mb-2"><span id="precioDetalDisplay">$0</span> <span class="text-sm font-normal text-slate-400">c/u</span></p>
+                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-600">
+                            <p class="text-xs text-slate-400 text-center">Ganancia pura <strong class="text-slate-200">por cada vela</strong>:</p>
+                            <p class="text-pink-400 font-bold text-center text-lg" id="gananciaDetalDisplay">$0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center bg-slate-700/50 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-center gap-4">
+                <p class="text-slate-300">
+                    💡 Total a cobrar por el pedido: <strong class="text-white text-xl" id="cobroTotalDisplay">$0</strong>
+                </p>
+                <div class="h-8 w-px bg-slate-600 hidden sm:block"></div>
+                <p class="text-slate-300">
+                    Ganancia de TODO el pedido: <strong class="text-emerald-400 text-xl" id="gananciaTotalDisplay">$0</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- PASO 1 -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-pink-100">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="bg-pink-100 text-pink-600 p-3 rounded-2xl">
+                    <i class="fas fa-box-open text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Paso 1: ¿De cuántas velas es el pedido?</h2>
+                    <p class="text-slate-500 text-sm">Esto nos ayuda a dividir el costo de tu trabajo.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl w-fit">
+                <span class="font-medium text-slate-700">Voy a fabricar:</span>
+                <input type="number" id="batchSize" value="20" class="w-24 text-xl font-bold text-center bg-white border-2 border-pink-200 rounded-xl py-2 focus:border-pink-500 focus:outline-none transition-colors" oninput="calcular()">
+                <span class="font-medium text-slate-700">velas hoy.</span>
+            </div>
+        </section>
+
+        <!-- PASO 2 -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-pink-100">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+                    <i class="fas fa-sparkles text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Paso 2: Mis Materiales</h2>
+                    <p class="text-slate-500 text-sm">¿Cuánto te costaron las cosas y para cuántas velas alcanzan?</p>
+                </div>
+            </div>
+
+            <div id="materials-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Los materiales se cargarán aquí desde JavaScript -->
+            </div>
+
+            <button onclick="agregarMaterial()" class="mt-6 w-full flex items-center justify-center gap-2 border-2 border-dashed border-pink-300 text-pink-600 font-bold py-4 rounded-2xl hover:bg-pink-50 transition-all">
+                <i class="fas fa-plus-circle text-xl"></i>
+                Agregar otro material
+            </button>
+        </section>
+
+        <!-- PASO 3 -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-pink-100 mb-10">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-100 text-purple-600 p-3 rounded-2xl">
+                    <i class="far fa-clock text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Paso 3: Mi Tiempo vale oro</h2>
+                    <p class="text-slate-500 text-sm">Cobra por las horas que te demoraste haciendo todo.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 bg-purple-50/50 p-6 rounded-2xl border border-purple-100">
+                <div class="flex-1">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">¿A cómo cobras tu hora?</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                        <input type="number" id="laborRate" value="8000" class="w-full bg-white border border-purple-200 rounded-xl py-2 pl-7 pr-3 focus:border-purple-500 focus:outline-none font-medium text-lg" oninput="calcular()">
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">¿Cuántas horas trabajaste?</label>
+                    <div class="flex items-center gap-2">
+                        <input type="number" step="0.5" id="laborHours" value="2.5" class="w-full bg-white border border-purple-200 rounded-xl py-2 px-3 focus:border-purple-500 focus:outline-none text-center font-medium text-lg" oninput="calcular()">
+                        <span class="font-medium text-slate-600">horas</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Datos iniciales
+        let materials = [
+            { id: 1, name: 'Cera', icon: 'fa-tint', color: 'bg-amber-100 text-amber-600', price: 20000, yield: 51 },
+            { id: 2, name: 'Esencia', icon: 'fa-spray-can', color: 'bg-rose-100 text-rose-600', price: 10500, yield: 20 },
+            { id: 3, name: 'Pigmento', icon: 'fa-palette', color: 'bg-blue-100 text-blue-600', price: 8500, yield: 50 },
+            { id: 4, name: 'Molde', icon: 'fa-heart', color: 'bg-pink-100 text-pink-600', price: 16000, yield: 100 },
+            { id: 5, name: 'Papel Coreano', icon: 'fa-scroll', color: 'bg-purple-100 text-purple-600', price: 12000, yield: 27 },
+            { id: 6, name: 'Gisofilia', icon: 'fa-leaf', color: 'bg-emerald-100 text-emerald-600', price: 20000, yield: 40 },
+            { id: 7, name: 'Caja/Empaque', icon: 'fa-box', color: 'bg-orange-100 text-orange-600', price: 10000, yield: 20 }
+        ];
+
+        const formatCOP = (value) => {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(value);
+        };
+
+        function renderMaterials() {
+            const container = document.getElementById('materials-container');
+            container.innerHTML = '';
+
+            materials.forEach((item, index) => {
+                const costoUnitario = item.price / (item.yield || 1);
+                
+                const card = document.createElement('div');
+                card.className = 'bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col gap-3 relative';
+                card.innerHTML = `
+                    <button onclick="eliminarMaterial(${index})" class="absolute top-3 right-3 text-slate-300 hover:text-red-500 transition-colors">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <div class="flex items-center gap-2 pr-6">
+                        <div class="p-2 rounded-lg ${item.color} shrink-0">
+                            <i class="fas ${item.icon}"></i>
+                        </div>
+                        <input type="text" value="${item.name}" oninput="actualizarMaterial(${index}, 'name', this.value)" class="font-bold text-slate-700 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-pink-500 focus:outline-none w-full px-1 py-0.5">
+                    </div>
+                    
+                    <div>
+                        <label class="text-xs text-slate-500 font-medium">Pagué en la tienda:</label>
+                        <div class="relative mt-1">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                            <input type="number" value="${item.price}" oninput="actualizarMaterial(${index}, 'price', this.value)" class="w-full bg-white border border-slate-200 rounded-xl py-1.5 pl-7 pr-3 focus:border-pink-500 focus:outline-none font-medium">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-slate-500 font-medium">Y me alcanza para:</label>
+                        <div class="flex items-center gap-2 mt-1">
+                            <input type="number" value="${item.yield}" oninput="actualizarMaterial(${index}, 'yield', this.value)" class="w-full bg-white border border-slate-200 rounded-xl py-1.5 px-3 text-center focus:border-pink-500 focus:outline-none font-medium">
+                            <span class="text-xs text-slate-500 font-medium">velas</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 pt-2 border-t border-slate-200">
+                        <p class="text-xs text-slate-500 flex justify-between">
+                            Costo en 1 vela: <span class="font-bold text-slate-700">${formatCOP(costoUnitario)}</span>
+                        </p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            calcular();
+        }
+
+        function actualizarMaterial(index, field, value) {
+            if (field === 'name') {
+                materials[index][field] = value;
+            } else {
+                materials[index][field] = parseFloat(value) || 0;
+            }
+            if(field !== 'name') renderMaterials(); // Solo re-renderiza si cambian números
+        }
+
+        function agregarMaterial() {
+            materials.push({
+                id: Date.now(),
+                name: 'Nuevo Material...',
+                icon: 'fa-box-open',
+                color: 'bg-slate-100 text-slate-600',
+                price: 0,
+                yield: 1
+            });
+            renderMaterials();
+        }
+
+        function eliminarMaterial(index) {
+            materials.splice(index, 1);
+            renderMaterials();
+        }
+
+        function calcular() {
+            const batchSize = parseFloat(document.getElementById('batchSize').value) || 1;
+            const laborRate = parseFloat(document.getElementById('laborRate').value) || 0;
+            const laborHours = parseFloat(document.getElementById('laborHours').value) || 0;
+
+            // Costos
+            const costoMateriales = materials.reduce((sum, item) => sum + (item.price / (item.yield || 1)), 0);
+            const costoTiempoPorVela = (laborRate * laborHours) / batchSize;
+            const costoTotalUnidad = costoMateriales + costoTiempoPorVela;
+
+            // Precios (Márgenes: 60% Detal, 45% Amigo, 30% Mayorista)
+            const precioDetal = costoTotalUnidad / (1 - 0.60);
+            const precioAmigo = costoTotalUnidad / (1 - 0.45);
+            const precioMayorista = costoTotalUnidad / (1 - 0.30);
+
+            // Actualizar Interfaz
+            document.getElementById('costoUnitarioDisplay').innerText = formatCOP(costoTotalUnidad);
+            
+            document.getElementById('precioDetalDisplay').innerText = formatCOP(precioDetal);
+            document.getElementById('gananciaDetalDisplay').innerText = formatCOP(precioDetal - costoTotalUnidad);
+            
+            document.getElementById('precioAmigoDisplay').innerText = formatCOP(precioAmigo);
+            document.getElementById('gananciaAmigoDisplay').innerText = formatCOP(precioAmigo - costoTotalUnidad);
+            
+            document.getElementById('precioMayoristaDisplay').innerText = formatCOP(precioMayorista);
+            document.getElementById('gananciaMayoristaDisplay').innerText = formatCOP(precioMayorista - costoTotalUnidad);
+
+            document.getElementById('cobroTotalDisplay').innerText = formatCOP(precioMayorista * batchSize);
+            document.getElementById('gananciaTotalDisplay').innerText = formatCOP((precioMayorista - costoTotalUnidad) * batchSize);
+        }
+
+        // Inicializar
+        renderMaterials();
+    </script>
+</body>
+</html>
